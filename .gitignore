@@ -1,0 +1,6 @@
+data/sessions.json
+data/cortex_state.json
+data/approved_patterns_queue.json
+__pycache__/
+*.pyc
+.env*
