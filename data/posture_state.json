@@ -1,0 +1,33 @@
+{
+  "snapshots": [
+    {
+      "timestamp": "2026-03-12T06:06:20.305461+00:00",
+      "overall": 0.718,
+      "grade": "B"
+    }
+  ],
+  "current": {
+    "timestamp": "2026-03-12T06:06:20.305461+00:00",
+    "dimension_scores": {
+      "TRUST": 0.85,
+      "ADVERSARIAL": 0.6,
+      "SURFACE": 0.75,
+      "ENTROPY": 0.7,
+      "LATERAL": 0.5,
+      "POSTURE": 0.8
+    },
+    "weighted_scores": {
+      "TRUST": 0.2125,
+      "ADVERSARIAL": 0.12,
+      "SURFACE": 0.15,
+      "ENTROPY": 0.105,
+      "LATERAL": 0.05,
+      "POSTURE": 0.08
+    },
+    "overall": 0.718,
+    "grade": "B",
+    "label": "Active Defender",
+    "color": "\ud83d\udfe1",
+    "description": "Good foundation. Targeted improvements needed."
+  }
+}
