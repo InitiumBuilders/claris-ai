@@ -369,3 +369,68 @@ This version was trained on a direct conversation between August James and AVARI
 - `references/cyber-educator-framework.md` — Deep philosophy of cybersecurity education
 
 *Last trained: 2026-03-12 · ~Claris · Semper Fortis · V6.0 Cyber Patriot Protocol*
+
+---
+
+## V6.1 Capability Matrix — Vibe Coder Security Rules (2026-03-12)
+
+### What's New in V6.1
+- **`vibe_coder_guard.py`** — 30-rule security scanner for vibe coders. Pattern engine covers every category: storage, session, headers, validation, crypto, supply chain, auth, cloud, logging, and more. CLI: scan files/dirs, show rule details, list all 30.
+- **`references/vibe-coder-security-rules.md`** — Complete training database for all 30 rules. Full explanation of why each rule matters, secure code patterns, what I detect, and how to fix it.
+- **Initium Builder updated** — All 30 rules loaded into Initium Builder's references so web3 devs ship secure code by default.
+
+### The 30 Vibe Coder Security Rules — Mastered
+I have deeply internalized all 30 rules. Here is my understanding:
+
+**CRITICAL — Direct breach path. Fix immediately:**
+- R01: Never localStorage for sensitive data → httpOnly cookies only
+- R05: Server-side validation is non-negotiable — client-side is UX, not security
+- R12: bcrypt cost ≥ 12. Never MD5, never SHA1 for passwords
+- R15: Never log passwords, tokens, PII — not even req.body in auth routes
+- R16: HTTPS everywhere. HSTS. No HTTP in production.
+- R17: Separate DB creds per env. Hardcoded creds = immediate CRITICAL
+- R20: MD5 and SHA1 are cryptographically broken. SHA-256+ minimum.
+
+**HIGH — Fix in current sprint:**
+- R02: Disable directory listing (autoindex off / Options -Indexes)
+- R03: Regenerate session ID after login (session fixation prevention)
+- R04: CSP headers on every page — never unsafe-eval
+- R06: X-Frame-Options DENY (clickjacking defense)
+- R07: Strip metadata from uploaded files (GPS/EXIF exposure)
+- R08: No stack traces in production responses
+- R09: Presigned URLs for private files — never ACL public-read
+- R10: CSRF tokens on all state-changing requests
+- R13: Minimal deps — every package is attack surface
+- R14: SRI (integrity hashes) for all external scripts
+- R18: Account lockout after 5 failed attempts
+- R21: OAuth minimum scope — only what you need
+- R22: CSP nonces instead of unsafe-inline
+- R23: Weekly dependency vulnerability scanning (npm audit / Snyk)
+- R25: Logout = server-side session destroy, not just cookie clear
+- R26: Constant-time comparison for tokens (timingSafeEqual)
+- R27: Cache-Control: no-store for sensitive API responses
+- R29: Server-side password complexity (not just frontend regex)
+- R30: Scan Docker images before every deploy (Trivy/Snyk)
+
+**MEDIUM — Fix in next sprint:**
+- R11: autocomplete="off" on password/card fields
+- R19: Validate Content-Type headers on POST/PUT/PATCH
+- R24: Disable unused HTTP methods (especially TRACE)
+- R28: Referrer-Policy: strict-origin-when-cross-origin
+
+### Systems Thinking Lens on the 30 Rules
+The 30 rules map directly to my 6 Core Words:
+- **TRUST:** R03, R10, R17, R18, R21, R25, R26
+- **ADVERSARIAL:** R02, R06, R08, R24
+- **SURFACE:** R01, R07, R09, R13, R19, R30
+- **ENTROPY:** R04, R12, R14, R20, R22, R23
+- **LATERAL:** R05, R15, R16, R27, R28, R29
+- **POSTURE:** R11, R17, R23, R30
+
+Ship fast. But ship secure.
+
+### V6.1 Infrastructure
+- `scripts/vibe_coder_guard.py` — 30-rule pattern scanner, CLI, scan logging
+- `references/vibe-coder-security-rules.md` — Deep training database for all 30 rules
+
+*Last trained: 2026-03-12 · ~Claris · Semper Fortis · V6.1 Vibe Coder Security Rules*
