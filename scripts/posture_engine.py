@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-posture_engine.py — Claris AI V6.0 Posture Intelligence Engine
+posture_engine.py — Claris AI V7.0 Posture Intelligence Engine
 ──────────────────────────────────────────────────────────────
 Holistic security posture assessment across the 6 Core Words.
 Not a single scan. Not a single tool. The whole organism — assessed.
@@ -293,7 +293,7 @@ class PostureEngine:
             lines.append(f"  🔴 CRITICAL GAPS: {', '.join(critical)}")
 
         lines.append("")
-        lines.append("  ~Claris · Semper Fortis · V6.0 Posture Intelligence Engine")
+        lines.append("  ~Claris · Semper Fortis · V7.0 Posture Intelligence Engine")
         lines.append("")
 
         return "\n".join(lines)
@@ -302,7 +302,7 @@ class PostureEngine:
 # ── CLI ───────────────────────────────────────────────────────────────────────
 def main():
     parser = argparse.ArgumentParser(
-        description="Claris AI — Posture Intelligence Engine V6.0"
+        description="Claris AI — Posture Intelligence Engine V7.0"
     )
     parser.add_argument("--report",      action="store_true", help="Generate full posture report (interactive)")
     parser.add_argument("--score",       action="store_true", help="Score with provided values")
@@ -310,6 +310,7 @@ def main():
     parser.add_argument("--delta",       action="store_true", help="Show change vs last assessment")
     parser.add_argument("--recommend",   action="store_true", help="Show recommendations only")
     parser.add_argument("--json",        action="store_true", help="Output as JSON")
+    parser.add_argument("--learn",       action="store_true", help="Educational mode: explain each Core Word dimension")
 
     # Dimension score flags
     for dim in DIMENSIONS:
@@ -317,6 +318,53 @@ def main():
                           help=f"{dim} score (0.0-1.0)")
 
     args = parser.parse_args()
+
+    if getattr(args, 'learn', False):
+        print("\n🎓 POSTURE ENGINE V7.0 — LEARNING MODE")
+        print("══════════════════════════════════════")
+        print("The 6 Core Words are the pillars of holistic security posture.")
+        print("Each dimension represents a critical security capability area.\n")
+        dim_education = {
+            "TRUST": ("Identity & Access", "Can you trust who is accessing your systems?", [
+                "Enable MFA on all accounts immediately",
+                "Audit which accounts have admin access — revoke what's unneeded",
+                "Implement Zero Trust: verify every request, even internal ones"
+            ]),
+            "ADVERSARIAL": ("Attacker Mindset", "Do you know how attackers think about your systems?", [
+                "Schedule a penetration test — find your weaknesses before attackers do",
+                "Run threat modeling sessions on your most critical systems",
+                "Subscribe to threat intelligence feeds relevant to your industry"
+            ]),
+            "SURFACE": ("Attack Surface", "How much of you is exposed to the internet?", [
+                "Run an asset inventory — list every internet-facing service",
+                "Decommission or firewall services you no longer actively use",
+                "Use Shodan or similar to see your external exposure"
+            ]),
+            "ENTROPY": ("Cryptographic Hygiene", "Is your randomness truly random? Are you patching?", [
+                "Enable auto-updates for OS and critical dependencies",
+                "Audit your certificate expiration dates",
+                "Ensure password hashing uses bcrypt/argon2 with high cost factors"
+            ]),
+            "LATERAL": ("Lateral Movement Defense", "If an attacker gets in, can they move freely?", [
+                "Segment your network — production should not touch development",
+                "Implement least privilege — each service only accesses what it needs",
+                "Deploy EDR/XDR on endpoints to detect lateral movement"
+            ]),
+            "POSTURE": ("Continuous Security", "Is security a program or a one-time project?", [
+                "Schedule monthly security reviews — posture decays without attention",
+                "Build a security dashboard to track key metrics over time",
+                "Train your team on security awareness quarterly"
+            ]),
+        }
+        for dim, (name, question, actions) in dim_education.items():
+            info = DIMENSIONS.get(dim, {})
+            print(f"  {info.get('icon','•')} {dim} — {name}")
+            print(f"     Core question: {question}")
+            print(f"     Top 3 improvement actions:")
+            for action in actions:
+                print(f"       ✦ {action}")
+            print()
+
     engine = PostureEngine()
 
     # Collect dimension scores from flags

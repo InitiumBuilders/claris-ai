@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-cyber_patriot.py — Claris AI V6.0 Cyber Patriot Protocol
+cyber_patriot.py — Claris AI V7.0 Cyber Patriot Protocol
 ──────────────────────────────────────────────────────────
 The Marcus Webb Framework: Build mindset and endurance in new defenders.
 Not fear. Not paralysis. Calibrated truth + the will to move through it.

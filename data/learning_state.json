@@ -1,0 +1,12 @@
+{
+  "enabled": false,
+  "level": "Recruit",
+  "active_path": "foundations",
+  "completed_lessons": [],
+  "quiz_scores": {},
+  "total_xp": 0,
+  "streak_days": 0,
+  "last_active": null,
+  "unlocked_paths": ["foundations", "appsec", "openclaw-security"],
+  "notes": {}
+}

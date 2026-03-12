@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-claris_api.py — Claris AI V4.0 REST API Server
+claris_api.py — Claris AI V7.0 REST API Server
 Lightweight stdlib-only HTTP API wrapping all Claris scripts.
 Port 7433 | Auth: X-Claris-Key header
 """
@@ -513,7 +513,12 @@ def main():
     parser.add_argument("--port", type=int, default=DEFAULT_PORT, help=f"Port (default {DEFAULT_PORT})")
     parser.add_argument("--key",  type=str, default=DEFAULT_KEY,  help="API auth key")
     parser.add_argument("--host", type=str, default=DEFAULT_HOST, help="Bind host")
+    parser.add_argument("--learn", action="store_true", help="Enable learning mode output (educational explanations)")
     args = parser.parse_args()
+
+    if getattr(args, "learn", False):
+        print("\n\U0001f393 LEARNING MODE: Educational output enabled. Use: python3 learning_mode.py --paths for full curriculum\n")
+
     run_server(host=args.host, port=args.port, key=args.key)
 
 

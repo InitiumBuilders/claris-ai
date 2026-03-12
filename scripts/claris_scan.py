@@ -1,8 +1,9 @@
 #!/usr/bin/env python3
 """
-CLARIS Security Scanner — Active System Defense
+# claris_scan.py — Claris AI V7.0 Security Scanner — Active System Defense
 Scans the AVARI system environment for vulnerabilities, misconfigurations,
 exposed secrets, and anomalies. Runs on demand or as part of weekly security review.
+V7.0 adds Unitium Learning Mode (--learn) for educational security output.
 
 Usage:
   python3 claris_scan.py --full          # Full system scan
@@ -10,6 +11,7 @@ Usage:
   python3 claris_scan.py --secrets       # Scan for exposed credentials
   python3 claris_scan.py --ports         # Network exposure audit
   python3 claris_scan.py --quick         # Fast health check
+  python3 claris_scan.py --quick --learn # Fast health check with educational output
 """
 import os, re, json, subprocess, argparse, sys
 from pathlib import Path
@@ -262,14 +264,29 @@ def generate_report(scan_type: str) -> str:
     return "\n".join(lines)
 
 def main():
-    parser = argparse.ArgumentParser()
+    parser = argparse.ArgumentParser(description="Claris AI V7.0 — Active Security Scanner")
     parser.add_argument("--full",    action="store_true", help="Full system scan")
     parser.add_argument("--code",    metavar="PATH", help="Code review path")
     parser.add_argument("--secrets", action="store_true", help="Secrets scan only")
     parser.add_argument("--ports",   action="store_true", help="Network exposure only")
     parser.add_argument("--quick",   action="store_true", help="Fast health check")
     parser.add_argument("--json",    action="store_true", help="JSON output")
+    parser.add_argument("--learn",   action="store_true", help="Educational mode: explain findings and sub-scanner output")
     args = parser.parse_args()
+
+    if getattr(args, 'learn', False):
+        print("\n🎓 CLARIS SCAN V7.0 — LEARNING MODE")
+        print("════════════════════════════════════")
+        print("Security scanning checks your system for known vulnerability patterns.")
+        print("Running full scan with educational output...\n")
+        print("📚 What I'm scanning for:")
+        print("  • Hardcoded secrets (API keys, passwords, tokens)")
+        print("  • File permission issues (world-readable sensitive files)")
+        print("  • Network exposure (unexpected open ports)")
+        print("  • Code vulnerabilities (SQL injection, eval usage, etc.)")
+        print("\n  💡 Run: python3 learning_mode.py --path openclaw-security for deep training")
+        print("  💡 Run: python3 openclaw_hardening.py --audit for VPS hardening audit")
+        print()
 
     scan_type = "QUICK"
     if args.full:

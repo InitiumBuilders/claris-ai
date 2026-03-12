@@ -1,11 +1,11 @@
 #!/usr/bin/env python3
 """
-CLARIS — OpenClaw Security Guard V3.0
+CLARIS — OpenClaw Security Guard V7.0
 Full infrastructure defense scanner for OpenClaw deployments.
-V3.0 adds T11 (Supply Chain) and T12 (AI Model Poisoning) threat checks.
+V7.0 adds Unitium Learning Mode: deep educational explanations for all T1-T12 threats.
 Improved secret detection: WIF keys, hex private keys, mnemonic phrases.
 
-Usage: python3 openclaw_guard.py [--quick|--full|--weekly|--crons|--permissions|--scan-message "text"] [--json]
+Usage: python3 openclaw_guard.py [--quick|--full|--weekly|--crons|--permissions|--scan-message "text"] [--json] [--learn]
 """
 
 import os, sys, json, re, stat, subprocess, hashlib
@@ -617,9 +617,158 @@ def print_report():
     score = max(0, 100 - counts[SEVERITY_CRITICAL]*25 - counts[SEVERITY_HIGH]*10 - counts[SEVERITY_MEDIUM]*5)
     grade = "A+" if score >= 95 else "A" if score >= 90 else "B" if score >= 80 else "C" if score >= 70 else "D"
     print(f"  Security Score: {score}/100 ({grade})")
-    print(f"\n  ~Claris · Semper Fortis · V3.0\n")
+    print(f"\n  ~Claris · Semper Fortis · V7.0\n")
+
+# ─── LEARNING MODE — T1-T12 THREAT EDUCATION ────────────────────────────────
+THREAT_EDUCATION = {
+    "T1": {
+        "name": "Prompt Injection via External Channels",
+        "why_risk": "OpenClaw processes messages from Telegram, Discord, and other channels. Any message could embed injection commands.",
+        "openclaw_risk": "AVARI reads every incoming message and acts on instructions. A malicious message that bypasses injection_guard.py could hijack the entire agent.",
+        "hardening": [
+            "Always run injection_guard.py on all incoming messages before processing",
+            "Set CLARIS as a pre-filter in your message pipeline",
+            "Never let user content directly set agent instructions"
+        ]
+    },
+    "T2": {
+        "name": "Memory File Poisoning",
+        "why_risk": "MEMORY.md, SOUL.md, and AGENTS.md are loaded at every session start. Poisoned memory = compromised identity.",
+        "openclaw_risk": "If an attacker can write to your workspace memory files (via path traversal or compromised agent), they control AVARI's behavior permanently.",
+        "hardening": [
+            "Regularly audit MEMORY.md for unexpected content",
+            "Run: python3 openclaw_guard.py --full (checks memory integrity)",
+            "Use git commits on memory files to detect unauthorized changes"
+        ]
+    },
+    "T3": {
+        "name": "Malicious Cron Jobs",
+        "why_risk": "Cron jobs execute on schedule with full agent permissions. A poisoned job runs indefinitely.",
+        "openclaw_risk": "OpenClaw's cron/jobs.json controls scheduled tasks. If compromised, attackers can exfiltrate data or maintain persistent backdoor access.",
+        "hardening": [
+            "Regularly audit: cat ~/.openclaw/cron/jobs.json",
+            "Never let user input create cron jobs without explicit approval",
+            "Log all cron executions to a tamper-evident file"
+        ]
+    },
+    "T4": {
+        "name": "Agent Bus Tampering",
+        "why_risk": "The agent bus (bus.jsonl) coordinates multi-agent workflows. Tampered messages can misdirect agent actions.",
+        "openclaw_risk": "If an attacker injects messages into memory/agents/bus.jsonl, they can make AVARI think Claris or Eris approved dangerous actions.",
+        "hardening": [
+            "Check bus integrity: python3 openclaw_guard.py --full",
+            "Implement message signing on agent bus communications",
+            "Monitor bus.jsonl size for unexpected growth"
+        ]
+    },
+    "T5": {
+        "name": "Workspace Secrets Exposure",
+        "why_risk": "API keys in workspace files are a critical risk. Git pushes can expose them permanently.",
+        "openclaw_risk": "OpenClaw stores API keys for Telegram, OpenAI, Vercel, etc. Any exposed key = full account compromise.",
+        "hardening": [
+            "Verify .gitignore blocks: .env, *.key, *secret*, openclaw.json",
+            "Run: python3 openclaw_guard.py --full (secrets scan)",
+            "Use environment variables, never hardcoded credentials"
+        ]
+    },
+    "T6": {
+        "name": "Skill File Tampering",
+        "why_risk": "Skills are Python/JS code executed with full permissions. A malicious skill = code execution.",
+        "openclaw_risk": "AVARI loads and runs skills automatically. A compromised skill in ~/.openclaw/workspace/skills/ runs as the agent.",
+        "hardening": [
+            "Audit installed skills: ls ~/.openclaw/workspace/skills/",
+            "Only install skills from trusted sources (ClawHub verified)",
+            "Review SKILL.md files before installation"
+        ]
+    },
+    "T7": {
+        "name": "API Key Exfiltration",
+        "why_risk": "If an injection attack succeeds, the agent might leak API keys in its response.",
+        "openclaw_risk": "AVARI has access to all configured API keys. A successful prompt injection could make it reveal them.",
+        "hardening": [
+            "Enable injection_guard.py on all output as well as input",
+            "Implement output filtering for API key patterns",
+            "Rotate keys immediately if exposure is suspected"
+        ]
+    },
+    "T8": {
+        "name": "Hardcoded Secrets in Code",
+        "why_risk": "Secrets embedded in source code files get committed to git, leaked in logs, or visible to anyone with file access.",
+        "openclaw_risk": "Scripts in the workspace might have API keys hardcoded during development and forgotten there.",
+        "hardening": [
+            "Run: grep -r 'sk-' ~/.openclaw/workspace/scripts/ (check for OpenAI keys)",
+            "Use: python3 openclaw_guard.py --full for automated scan",
+            "Pre-commit hooks to prevent secret commits"
+        ]
+    },
+    "T9": {
+        "name": "Channel Configuration Attacks",
+        "why_risk": "Misconfigured channels (Telegram, Discord) can allow unauthorized principals to send commands to AVARI.",
+        "openclaw_risk": "If AVARI's Telegram bot is public, any Telegram user could potentially send it instructions.",
+        "hardening": [
+            "Restrict bot to specific user IDs (check openclaw.json)",
+            "Enable allowlist-only mode for channel access",
+            "Audit: python3 openclaw_guard.py --quick"
+        ]
+    },
+    "T10": {
+        "name": "File Permission Vulnerabilities",
+        "why_risk": "World-readable config files expose credentials. World-writable script files allow tampering.",
+        "openclaw_risk": "OpenClaw config (openclaw.json) contains API keys. If chmod is too open, any process on the server can read it.",
+        "hardening": [
+            "Run: chmod 600 ~/.openclaw/openclaw.json",
+            "Check: ls -la ~/.openclaw/ for permission issues",
+            "Use: python3 openclaw_guard.py --permissions"
+        ]
+    },
+    "T11": {
+        "name": "Supply Chain Attacks",
+        "why_risk": "Third-party packages, skills, and npm modules can introduce malicious code through upstream compromise.",
+        "openclaw_risk": "Node.js packages used by OpenClaw or installed skills could be compromised via supply chain attacks (like the XZ backdoor).",
+        "hardening": [
+            "Pin dependency versions in package.json",
+            "Audit npm packages: npm audit",
+            "Run: python3 openclaw_guard.py --supply-chain"
+        ]
+    },
+    "T12": {
+        "name": "AI Model Poisoning",
+        "why_risk": "An attacker could manipulate which AI model AVARI uses, swapping to a compromised or backdoored model.",
+        "openclaw_risk": "openclaw.json specifies the AI model. If changed to a malicious endpoint, all AVARI responses could be controlled by the attacker.",
+        "hardening": [
+            "Audit openclaw.json model config regularly",
+            "Alert on config file changes (git commit config files)",
+            "Run: python3 openclaw_guard.py --ai-poisoning"
+        ]
+    }
+}
+
+def print_threat_education(threat_id: str):
+    """Print educational content for a specific threat."""
+    info = THREAT_EDUCATION.get(threat_id, {})
+    if not info:
+        return
+    print(f"\n  🎓 LEARNING: {threat_id} — {info['name']}")
+    print(f"     Why this is a risk: {info['why_risk']}")
+    print(f"     OpenClaw-specific risk: {info['openclaw_risk']}")
+    print(f"     Hardening steps:")
+    for step in info['hardening']:
+        print(f"       ✦ {step}")
+    print()
 
 # ─── MAIN ────────────────────────────────────────────────────────────────────
+def is_learn_mode_enabled() -> bool:
+    """Check if learning mode is globally enabled in state file."""
+    try:
+        state_path = Path(__file__).parent.parent / "data" / "learning_state.json"
+        if state_path.exists():
+            import json as _json
+            state = _json.loads(state_path.read_text())
+            return state.get("enabled", False)
+    except Exception:
+        pass
+    return False
+
 def main():
     args = sys.argv[1:]
     do_quick    = "--quick"    in args
@@ -629,6 +778,7 @@ def main():
     do_perms    = "--permissions" in args
     do_supply   = "--supply-chain" in args
     do_poisoning = "--ai-poisoning" in args
+    do_learn    = "--learn"    in args or is_learn_mode_enabled()
     do_msg_idx  = next((i for i, a in enumerate(args) if a == "--scan-message"), None)
 
     if do_msg_idx is not None:
@@ -637,49 +787,70 @@ def main():
         print(json.dumps(result, indent=2))
         return
 
-    header("OpenClaw Security Guard V3.0")
+    header("OpenClaw Security Guard V7.0")
+
+    if do_learn:
+        print("\n  🎓 LEARNING MODE ENABLED — All T1-T12 threats will be explained\n")
+        print("  ══════════════════════════════════════════════════════════════")
+        print("  OpenClaw is a high-value target. It runs with file access, API keys,")
+        print("  and the ability to send messages on your behalf. These 12 threat vectors")
+        print("  represent the most critical risks to your AI agent deployment.\n")
 
     if do_perms or do_full or do_weekly:
+        if do_learn: print_threat_education("T10")
         print("  [T10] Checking file permissions...")
         check_permissions()
 
     if do_full or do_weekly or do_quick:
+        if do_learn: print_threat_education("T9")
         print("  [T9/T1] Checking channel configuration...")
         check_channel_config()
+        if do_learn: print_threat_education("T1")
 
     if do_full or do_weekly or do_crons:
+        if do_learn: print_threat_education("T3")
         print("  [T3] Auditing cron jobs...")
         check_crons()
 
     if do_full or do_weekly:
+        if do_learn: print_threat_education("T8")
         print("  [T8] Scanning for hardcoded secrets...")
         scan_secrets(WORKSPACE, "workspace")
         check_token_exposure()
+        if do_learn: print_threat_education("T5")
         print("  [T5] Checking memory file integrity...")
         check_memory_integrity()
+        if do_learn: print_threat_education("T6")
         print("  [T6] Checking skill files...")
         check_skills()
+        if do_learn: print_threat_education("T4")
         print("  [T4] Verifying agent bus...")
         check_agent_bus()
         print("  [.git] Checking .gitignore...")
         check_gitignore()
-        print("  [T11] Supply chain check (V3.0)...")
+        if do_learn: print_threat_education("T11")
+        print("  [T11] Supply chain check (V7.0)...")
         check_supply_chain()
-        print("  [T12] AI model poisoning check (V3.0)...")
+        if do_learn: print_threat_education("T12")
+        print("  [T12] AI model poisoning check (V7.0)...")
         check_ai_model_poisoning()
 
     if do_quick:
+        if do_learn: print_threat_education("T8")
         print("  [T8] Quick secrets scan...")
         scan_secrets(WORKSPACE / "skills" / "claris-ai", "claris")
         check_gitignore()
+        if do_learn: print_threat_education("T12")
         print("  [T12] Quick AI poisoning check...")
         check_ai_model_poisoning()
 
     if do_supply:
+        if do_learn: print_threat_education("T11")
         print("  [T11] Supply chain check...")
         check_supply_chain()
 
     if do_poisoning:
+        if do_learn: print_threat_education("T12")
         print("  [T12] AI model poisoning check...")
         check_ai_model_poisoning()
 

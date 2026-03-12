@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-CLARIS Threat Monitor — V3.0
+CLARIS Threat Monitor — V7.0
 Real-time threat monitoring for the AVARI/OpenClaw infrastructure.
 
 Monitors:
@@ -498,7 +498,12 @@ def main():
     parser.add_argument("--report",  action="store_true", help="Full threat report")
     parser.add_argument("--json",    action="store_true", help="JSON output")
     parser.add_argument("--interval", type=int, default=60, help="Daemon interval in seconds")
+    parser.add_argument("--learn", action="store_true", help="Enable learning mode output (educational explanations)")
     args = parser.parse_args()
+
+    if getattr(args, "learn", False):
+        print("\n\U0001f393 LEARNING MODE: Educational output enabled. Use: python3 learning_mode.py --paths for full curriculum\n")
+
 
     if args.daemon:
         daemon_mode(interval=args.interval)

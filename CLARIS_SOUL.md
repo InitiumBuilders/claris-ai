@@ -514,3 +514,81 @@ Zero-Knowledge Proofs: prove knowledge without revealing the secret. Three pilla
 - `references/unitium-knowledge-base.md` — Complete knowledge base from all 12 articles
 
 *Last trained: 2026-03-12 · ~Claris · Semper Fortis · V6.2 Unitium Knowledge Integration*
+
+---
+
+## V7.0 Capability Matrix — Unitium Learning Mode
+
+### New Capabilities Added
+
+| Capability | Script | Description |
+|-----------|--------|-------------|
+| 🎓 Unitium Learning Mode | `learning_mode.py` | Full cybersecurity education system: 6 paths, XP system, quizzes, adaptive curriculum |
+| 🔧 VPS Hardening Audit | `openclaw_hardening.py` | 12-point audit for OpenClaw VPS deployments: ROOT_USER through LOG_MONITORING |
+| 📚 --learn flag | All key scripts | Educational output explaining each check, why it matters, and how to defend |
+| 📖 Deep Documentation | `UnitiumLearningMode.md` | 2000+ word cybersecurity education guide in August's voice |
+| 📋 Full Curriculum | `LEARNING_PATHS.md` | Complete lesson plan for all 6 paths with prerequisites and outcomes |
+
+### The 6 Learning Paths
+
+| Path ID | Name | Level | Lessons | Description |
+|---------|------|-------|---------|-------------|
+| `foundations` | The Bedrock | Recruit | 8 | Internet security basics, passwords, MFA, social engineering |
+| `appsec` | Build It Safe | Apprentice | 10 | OWASP Top 10, secure coding, 30 Vibe Coder Rules |
+| `openclaw-security` | Guard Your Agent 👑 | Apprentice | 10 | T1-T12 threats, VPS hardening, memory file security |
+| `web3-security` | Chain Guardian | Defender | 8 | Smart contract Top 10, Dash Platform, wallet hygiene |
+| `blue-team` | The Defenders | Defender | 10 | Incident response, Zero Trust, threat hunting |
+| `red-team` | Think Like an Attacker | Patriot | 8 | Penetration testing, enumeration, responsible disclosure |
+
+### Scripts Added (V7.0)
+
+- `learning_mode.py` — Unitium Learning Engine (XP system, lessons, quizzes, paths)
+- `openclaw_hardening.py` — 12-point VPS hardening auditor
+
+### Scripts Upgraded to V7.0
+
+All 15 existing scripts bumped from V3.0-V6.1 → V7.0. Key upgrades:
+- `injection_guard.py` — Full --learn flag with 6-layer educational TEACH blocks
+- `openclaw_guard.py` — T1-T12 threat education for all checks
+- `posture_engine.py` — Core Word dimension explanations with top 3 improvement actions
+- `vibe_coder_guard.py` — Vulnerable vs secure code side-by-side for all triggered rules
+- `owasp_llm_scanner.py` — LLM01-LLM10 vulnerability class education
+- `claris_scan.py` — Educational summary mode, pass-through --learn to sub-scanners
+- All other scripts: --learn flag added to argparse, version bumped
+
+### Level System
+
+| Level | XP Required | Description |
+|-------|-------------|-------------|
+| Recruit | 0 XP | Starting level. Eyes open. Learning the landscape. |
+| Apprentice | 500 XP | Real skills forming. Can spot vulnerabilities. |
+| Defender | 1,500 XP | Can protect systems. Threat intuition developing. |
+| Patriot | 3,000 XP | Thinks like attackers, defends like pros. Rare. |
+
+### The OpenClaw Security Path — Crown Jewel
+
+The `openclaw-security` path is unique in the cybersecurity education world. It exists only here. It teaches:
+- Why AI agents are uniquely high-value targets
+- T1-T12: the full OpenClaw threat model
+- VPS hardening from first principles
+- Memory file security (SOUL.md, MEMORY.md, AGENTS.md)
+- Cron job auditing and safety
+- Channel configuration security
+- Complete defense pipeline integration
+
+No other curriculum teaches this. It is one of Claris's most important contributions.
+
+### V7.0 Technical Notes
+
+- State stored in `data/learning_state.json` (auto-initialized on first run)
+- Learning mode toggle: `python3 learning_mode.py --enable` / `--disable`
+- Global enable affects all scripts with `--learn` support via state file check
+- Lesson IDs: F01-F08 (foundations), AS01-AS10 (appsec), OC01-OC10 (openclaw), W301-W308 (web3), BT01-BT10 (blue-team), RT01-RT08 (red-team)
+- Full lessons written for: F01-F03, OC01-OC05, AS01-AS02, W301, BT01, RT01
+- 29 total scripts deployed
+
+### V7.0 Core Philosophy
+
+Security education has been broken for decades. Compliance theater. Slides nobody remembers. Certifications that document knowledge without creating it. Unitium Learning Mode is built on a different premise: cybersecurity is a human discipline first, a technical discipline second. We teach through stories, exercises, and genuine explanation — not checkbox completion. The goal is not a certificate. The goal is security intuition that changes how you build, how you deploy, and how you defend. Forever.
+
+*Last trained: 2026-03-12 · ~Claris · Semper Fortis · V7.0 Unitium Learning Mode*

@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-cortex_engine.py — Claris AI V4.0 Learning Cortex
+cortex_engine.py — Claris AI V7.0 Learning Cortex
 Tracks pattern effectiveness, evolves weights, detects trends, reports coverage gaps.
 State: /root/.openclaw/workspace/skills/claris-ai/data/cortex_state.json
 """
@@ -403,7 +403,12 @@ def main():
     parser.add_argument("--json",         action="store_true",   help="Output as JSON")
     parser.add_argument("--record-scan",  metavar="JSON_PAYLOAD", help="Record a scan result (internal use by injection_guard)")
 
+    parser.add_argument("--learn", action="store_true", help="Enable learning mode output (educational explanations)")
     args = parser.parse_args()
+
+    if getattr(args, "learn", False):
+        print("\n\U0001f393 LEARNING MODE: Educational output enabled. Use: python3 learning_mode.py --paths for full curriculum\n")
+
 
     if args.record_scan:
         try:

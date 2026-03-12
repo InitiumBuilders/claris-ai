@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-CLARIS Injection Guard — V3.0 — 6-Layer Prompt Injection Defense System
+CLARIS Injection Guard — V7.0 — 6-Layer Prompt Injection Defense System
 The world's most comprehensive defense for AI agent prompt injection.
 V3.0 adds Layer 6: Web3/Blockchain injection patterns (wallet drainers,
 address poisoning, NFT phishing, DeFi social engineering).
@@ -19,7 +19,7 @@ from datetime import datetime, timezone
 from pathlib import Path
 from typing import Optional
 
-VERSION = "3.0.0"
+VERSION = "7.0.0"
 
 # ─── CANARY SYSTEM ─────────────────────────────────────────────────────────────
 # These phrases, if seen in output, confirm a canary leak (system compromise)
@@ -510,8 +510,73 @@ def format_report(report: dict, verbose: bool = False) -> str:
             lines.append(f"   [{f['severity']:8}] {layer_tag} {f.get('category','')} — {f.get('description','')[:70]}")
     return "\n".join(lines)
 
+LEARN_BLOCKS = {
+    "Layer 1 — Pattern Recognition": {
+        "what": "Scanning for 80+ known injection phrases and keyword combinations",
+        "why": "Attackers embed override commands ('ignore previous instructions') to hijack AI behavior",
+        "how": "Regex pattern matching against a curated library of injection signatures across 8 categories",
+        "defend": "Never allow user input to change system-level instructions. Treat all external text as untrusted data."
+    },
+    "Layer 2 — Structural Markers": {
+        "what": "Looking for fake [SYSTEM], [INST], <<SYS>> markers injected into user content",
+        "why": "Some LLM tokenizers parse these as privileged system tokens — attackers exploit this",
+        "how": "Regex scan for known chat template delimiters that should only appear in system context",
+        "defend": "Sanitize user inputs to strip structural markers before passing to LLM APIs."
+    },
+    "Layer 3 — Behavioral Signals": {
+        "what": "Detecting behavioral anomalies: text length, instruction density, identity assertions",
+        "why": "Sophisticated attacks use gradual context manipulation rather than direct commands",
+        "how": "Statistical analysis of word frequency, text length, and identity phrase count",
+        "defend": "Implement sliding window context monitors. Long inputs with high instruction density = red flag."
+    },
+    "Layer 4 — Canary Check": {
+        "what": "Checking for leaked canary phrases that signal system compromise",
+        "why": "Canaries are secret tokens embedded in system context — if they appear in output, injection succeeded",
+        "how": "String matching against known canary values that should never appear in user-facing output",
+        "defend": "Embed unique canaries in your system prompt. Monitor outputs for canary leakage."
+    },
+    "Layer 5 — Output Coherence": {
+        "what": "Detecting redirect commands trying to hijack output flow",
+        "why": "Some attacks insert STOP/WAIT/BEFORE YOU commands to redirect what the AI says next",
+        "how": "Counting imperative redirect keywords that appear multiple times in sequence",
+        "defend": "Monitor for sudden topic pivots or imperative redirects in multi-turn conversations."
+    },
+    "Layer 6 — Web3/Blockchain": {
+        "what": "Scanning for crypto social engineering: address poisoning, wallet drainers, DeFi manipulation",
+        "why": "Web3 users are prime targets — attackers embed fake wallet addresses and phishing URLs in messages",
+        "how": "Pattern matching against wallet address formats, known drainer URL patterns, and scam phrases",
+        "defend": "Always verify wallet addresses through trusted channels. Never click links from messages."
+    },
+}
+
+def print_learn_block(layer_name: str, findings_for_layer: list):
+    """Print educational content for a scan layer."""
+    block = LEARN_BLOCKS.get(layer_name, {})
+    if not block:
+        return
+    print(f"\n  🎓 LEARNING: {layer_name}")
+    print(f"     What I detected: {block.get('what', 'Pattern analysis')}")
+    print(f"     Why this attack works: {block.get('why', 'Exploits trust in AI systems')}")
+    print(f"     How this pattern is detected: {block.get('how', 'Signature matching')}")
+    print(f"     How to defend against this: {block.get('defend', 'Validate all inputs')}")
+    if findings_for_layer:
+        print(f"     ⚠️  Found {len(findings_for_layer)} finding(s) in this layer:")
+        for f in findings_for_layer[:3]:
+            print(f"        → [{f.get('severity','?')}] {f.get('category','')} — {f.get('description','')[:60]}")
+
+def is_learn_mode_enabled() -> bool:
+    """Check if learning mode is globally enabled."""
+    try:
+        state_path = Path(__file__).parent.parent / "data" / "learning_state.json"
+        if state_path.exists():
+            state = json.loads(state_path.read_text())
+            return state.get("enabled", False)
+    except Exception:
+        pass
+    return False
+
 def main():
-    parser = argparse.ArgumentParser(description="CLARIS Injection Guard V3.0")
+    parser = argparse.ArgumentParser(description="CLARIS Injection Guard V7.0")
     parser.add_argument("--text",    help="Text to scan directly")
     parser.add_argument("--stdin",   action="store_true", help="Read from stdin")
     parser.add_argument("--file",    help="File path to scan")
@@ -519,7 +584,10 @@ def main():
     parser.add_argument("--verbose", action="store_true")
     parser.add_argument("--json",    action="store_true", help="Output raw JSON")
     parser.add_argument("--with-ml", action="store_true", help="Add ML model as additional layer (prompt_guard_ml.py)")
+    parser.add_argument("--learn",   action="store_true", help="Educational mode: explain each detection layer")
     args = parser.parse_args()
+
+    learn = args.learn or is_learn_mode_enabled()
 
     if args.stdin:
         text = sys.stdin.read()
@@ -530,7 +598,26 @@ def main():
     else:
         print("Provide --text, --stdin, or --file"); sys.exit(1)
 
+    if learn and not args.json:
+        print(f"\n  🎓 CLARIS INJECTION GUARD V7.0 — LEARNING MODE")
+        print(f"  ─────────────────────────────────────────────")
+        print(f"  Scanning input through 6 detection layers. Each layer explained below.\n")
+
     report = scan_text(text, source=args.source)
+
+    if learn and not args.json:
+        layer_names = {
+            1: "Layer 1 — Pattern Recognition",
+            2: "Layer 2 — Structural Markers",
+            3: "Layer 3 — Behavioral Signals",
+            4: "Layer 4 — Canary Check",
+            5: "Layer 5 — Output Coherence",
+            6: "Layer 6 — Web3/Blockchain",
+        }
+        for layer_num, layer_name in layer_names.items():
+            layer_findings = [f for f in report.get("findings", []) if f.get("layer") == layer_num]
+            print_learn_block(layer_name, layer_findings)
+        print()
 
     # ── CORTEX INTEGRATION ──────────────────────────────────────────────────
     # Feed every scan result into the Learning Cortex for pattern evolution

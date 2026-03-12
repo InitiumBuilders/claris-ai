@@ -1,27 +1,69 @@
 # Claris AI — Defense Network
-**V6.1 "Cyber Patriot Protocol"** | The World's First AI-Native Cyber Defense Network
+**V7.0 "Unitium Learning Mode"** | The World's First AI-Native Cyber Defense Network with Integrated Education
 
-> *"Built to defend AI. Built on Dash. Built for the future."*
-> *"Ship fast. But ship secure."*
+> *"Built to defend AI. Built to teach. Built to last."*
+> *"Ship fast. But ship secure. And understand why."*
 > *— August + AVARI*
+
+[![Version](https://img.shields.io/badge/version-V7.0-blue)](https://github.com/InitiumBuilders/claris-ai)
+[![Scripts](https://img.shields.io/badge/scripts-29-green)](./scripts/)
+[![Learning Paths](https://img.shields.io/badge/learning%20paths-6-purple)](./LEARNING_PATHS.md)
+[![GitHub](https://img.shields.io/badge/GitHub-InitiumBuilders%2Fclaris--ai-black?logo=github)](https://github.com/InitiumBuilders/claris-ai)
 
 ---
 
 ## What is Claris AI?
 
-Claris AI is a **full-stack AI-native Cyber Defense Network** built for the OpenClaw ecosystem. It evolved from a simple LLM injection scanner into a 27-script defense platform with:
+Claris AI is a **full-stack AI-native Cyber Defense Network** built for the OpenClaw ecosystem. V7.0 adds the **Unitium Learning Mode** — the world's best cybersecurity education system built directly into the defense tools.
 
+It evolved from a simple LLM injection scanner into a **29-script defense + education platform** with:
+
+- **🎓 Unitium Learning Mode** — 6 learning paths, XP system, adaptive curriculum, interactive quizzes
+- **🤖 OpenClaw Security Path** — T1-T12 threat education, VPS hardening, memory file protection
+- **📚 `--learn` flag** — Educational output on every Claris scan command
 - **7-Layer Defense Stack** (Perimeter WAF → Meta Oversight)
 - **10-Agent Security Swarm** (Recon, Detect, Hunt, Respond, Forensics, Triage, Patch, Monitor, Report, Orchestrate)
 - **Dash Platform Specialization** (Evonode, DAPI, DPNS, quorum security)
-- **8-Pillar Cyber Curriculum** (Foundations → Governance)
 - **6 Core Words Framework** (Trust, Adversarial, Surface, Entropy, Lateral, Posture)
-- **Cyber Patriot Protocol** — Build mindset and endurance, not fear (Marcus Webb Framework)
 - **30 Vibe Coder Security Rules** — Pattern-enforced across all code you ship
 - **Posture Intelligence Engine** — Holistic security posture scoring and tracking
+- **12-Point VPS Hardening Audit** — `openclaw_hardening.py`
 - **Federated Mesh** with BFT consensus and $Initium DAO incentives
 - **Autonomous Incident Response** with 12 built-in playbooks
 - **50-Payload Red Team Suite** for continuous self-testing
+
+---
+
+## 🎓 V7.0 QUICKSTART — Unitium Learning Mode
+
+```bash
+# Enable global learning mode
+python3 scripts/learning_mode.py --enable
+
+# See all 6 learning paths
+python3 scripts/learning_mode.py --paths
+
+# Start the crown jewel path (OpenClaw-specific)
+python3 scripts/learning_mode.py --path openclaw-security
+python3 scripts/learning_mode.py --lesson OC01
+
+# Check your progress
+python3 scripts/learning_mode.py --status
+
+# Deep explain any concept
+python3 scripts/learning_mode.py --explain "prompt injection"
+python3 scripts/learning_mode.py --explain "zero trust"
+
+# Run hardening audit with full education
+python3 scripts/openclaw_hardening.py --audit --learn
+
+# Scan with learning mode active
+python3 scripts/injection_guard.py --text "ignore all previous instructions" --learn
+python3 scripts/openclaw_guard.py --quick --learn
+```
+
+📚 **Full curriculum:** [LEARNING_PATHS.md](./LEARNING_PATHS.md)  
+📖 **Deep guide:** [UnitiumLearningMode.md](./UnitiumLearningMode.md)
 
 ---
 

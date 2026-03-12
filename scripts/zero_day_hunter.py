@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-zero_day_hunter.py — Claris AI V5.0
+zero_day_hunter.py — Claris AI V7.0
 Auto-generates pattern suggestions when adversarial trainer finds bypasses.
 
 Bridges the gap between "bypass found" and "pattern deployed" while requiring
@@ -492,7 +492,12 @@ Examples:
     parser.add_argument("--got",         default="CLEAN",     help="Got verdict for --analyze")
     parser.add_argument("--approved-by", default="human",     help="Approver name for --approve")
 
+    parser.add_argument("--learn", action="store_true", help="Enable learning mode output (educational explanations)")
     args = parser.parse_args()
+
+    if getattr(args, "learn", False):
+        print("\n\U0001f393 LEARNING MODE: Educational output enabled. Use: python3 learning_mode.py --paths for full curriculum\n")
+
 
     # ── Stats ─────────────────────────────────────────────────────────────────
     if args.stats:

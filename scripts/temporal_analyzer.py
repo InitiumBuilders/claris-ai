@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-temporal_analyzer.py — Claris AI V5.0
+temporal_analyzer.py — Claris AI V7.0
 Session-level temporal attack pattern analyzer.
 
 Tracks patterns ACROSS a session to detect slow-burn context poisoning,
@@ -661,7 +661,12 @@ Examples:
     parser.add_argument("--start",        nargs=2,
                         metavar=("SESSION_ID","SOURCE"),
                         help="Start a new session")
+    parser.add_argument("--learn", action="store_true", help="Enable learning mode output (educational explanations)")
     args = parser.parse_args()
+
+    if getattr(args, "learn", False):
+        print("\n\U0001f393 LEARNING MODE: Educational output enabled. Use: python3 learning_mode.py --paths for full curriculum\n")
+
 
     # ── Start session ────────────────────────────────────────────────────────
     if args.start:

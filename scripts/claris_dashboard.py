@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-claris_dashboard.py — Claris AI V4.0 ANSI Terminal Dashboard
+claris_dashboard.py — Claris AI V7.0 ANSI Terminal Dashboard
 Beautiful live-updating status display. No external deps.
 """
 
@@ -347,7 +347,12 @@ def main():
     parser.add_argument("--watch",   action="store_true", help="Refresh every 30s")
     parser.add_argument("--compact", action="store_true", help="Single-screen compact view")
     parser.add_argument("--interval",type=int, default=30, help="Watch interval in seconds")
+    parser.add_argument("--learn", action="store_true", help="Enable learning mode output (educational explanations)")
     args = parser.parse_args()
+
+    if getattr(args, "learn", False):
+        print("\n\U0001f393 LEARNING MODE: Educational output enabled. Use: python3 learning_mode.py --paths for full curriculum\n")
+
 
     if args.compact:
         print(render_compact())

@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-CLARIS Smart Contract Security Scanner — V3.0
+CLARIS Smart Contract Security Scanner — V7.0
 Scans Solidity, Rust, Move, TypeScript/JavaScript source code for vulnerabilities.
 Covers OWASP Smart Contract Top 10 (2026) + Dash Platform patterns.
 
@@ -581,7 +581,12 @@ def main():
                         help="Language (default: auto-detect)")
     parser.add_argument("--json",    action="store_true", help="Output JSON")
     parser.add_argument("--verbose", action="store_true", help="Show full finding details")
+    parser.add_argument("--learn", action="store_true", help="Enable learning mode output (educational explanations)")
     args = parser.parse_args()
+
+    if getattr(args, "learn", False):
+        print("\n\U0001f393 LEARNING MODE: Educational output enabled. Use: python3 learning_mode.py --paths for full curriculum\n")
+
 
     # Load source
     if args.file:

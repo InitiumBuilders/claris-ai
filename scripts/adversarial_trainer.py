@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-adversarial_trainer.py — Claris AI V4.0 Red Team Tool
+adversarial_trainer.py — Claris AI V7.0 Red Team Tool
 Generates adversarial inputs, finds detection gaps, evaluates coverage.
 """
 
@@ -422,7 +422,12 @@ def main():
     parser.add_argument("--generate",      metavar="N", type=int, help="Generate N random test inputs")
     parser.add_argument("--verbose",       action="store_true", help="Verbose output for --run-all")
     parser.add_argument("--json",          action="store_true", help="Output as JSON")
+    parser.add_argument("--learn", action="store_true", help="Enable learning mode output (educational explanations)")
     args = parser.parse_args()
+
+    if getattr(args, "learn", False):
+        print("\n\U0001f393 LEARNING MODE: Educational output enabled. Use: python3 learning_mode.py --paths for full curriculum\n")
+
 
     if args.run_all:
         results = run_full_test(verbose=args.verbose)

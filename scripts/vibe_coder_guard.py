@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-vibe_coder_guard.py — Claris AI V6.1 Vibe Coder Security Guard
+vibe_coder_guard.py — Claris AI V7.0 Vibe Coder Security Guard
 ──────────────────────────────────────────────────────────────
 Enforces the 30 Vibe Coder Security Rules on code and configs.
 Built from the rules shared by August James, March 12 2026.
@@ -593,9 +593,72 @@ def _print_results(results: dict, top: int = 20):
 
 
 # ── CLI ───────────────────────────────────────────────────────────────────────
+VIBE_LEARN_EXAMPLES = {
+    "hardcoded_secret": {
+        "vuln": 'const API_KEY = "sk-abc123xyz";  // ❌ NEVER hardcode secrets',
+        "secure": 'const API_KEY = process.env.API_KEY;  // ✅ Use environment variables'
+    },
+    "sql_injection": {
+        "vuln": 'db.query("SELECT * FROM users WHERE id = " + userId);  // ❌ SQL injection',
+        "secure": 'db.query("SELECT * FROM users WHERE id = ?", [userId]);  // ✅ Parameterized query'
+    },
+    "eval_usage": {
+        "vuln": 'eval(userInput);  // ❌ Arbitrary code execution',
+        "secure": 'JSON.parse(userInput);  // ✅ Use safe parsing methods'
+    },
+    "console_log_sensitive": {
+        "vuln": 'console.log("User token:", authToken);  // ❌ Leaks token to logs',
+        "secure": 'console.log("Auth completed for:", userId);  // ✅ Log IDs, not secrets'
+    },
+    "path_traversal": {
+        "vuln": 'fs.readFile("/uploads/" + req.params.file);  // ❌ Path traversal',
+        "secure": 'const safe = path.basename(req.params.file); fs.readFile(path.join("/uploads", safe));  // ✅'
+    },
+    "no_input_validation": {
+        "vuln": 'app.post("/user", (req) => { db.insert(req.body); });  // ❌ No validation',
+        "secure": 'app.post("/user", validate(schema), (req) => { db.insert(req.validatedBody); });  // ✅'
+    },
+}
+
+def print_vibe_learn(rule_name: str, finding_text: str):
+    """Print educational side-by-side code examples for triggered rules."""
+    # Find matching example
+    example = None
+    for key, ex in VIBE_LEARN_EXAMPLES.items():
+        if key.lower() in rule_name.lower() or key.lower() in finding_text.lower():
+            example = ex
+            break
+
+    if not example:
+        # Generic education
+        print(f"\n  🎓 LEARNING: Rule Triggered — {rule_name}")
+        print(f"     This rule catches common security mistakes in code.")
+        print(f"     Review the Vibe Coder Rules with: python3 vibe_coder_guard.py --list")
+        return
+
+    print(f"\n  🎓 LEARNING: {rule_name}")
+    print(f"     VULNERABLE CODE:")
+    print(f"       {example['vuln']}")
+    print(f"     SECURE CODE:")
+    print(f"       {example['secure']}")
+    print(f"     Learn all 30 rules: python3 vibe_coder_guard.py --list\n")
+
+def is_learn_mode_enabled() -> bool:
+    """Check if learning mode is globally enabled."""
+    try:
+        import json as _json
+        from pathlib import Path as _Path
+        state_path = _Path(__file__).parent.parent / "data" / "learning_state.json"
+        if state_path.exists():
+            state = _json.loads(state_path.read_text())
+            return state.get("enabled", False)
+    except Exception:
+        pass
+    return False
+
 def main():
     parser = argparse.ArgumentParser(
-        description="Claris AI — Vibe Coder Security Guard V6.1 (30 Rules)"
+        description="Claris AI — Vibe Coder Security Guard V7.0 (30 Rules)"
     )
     parser.add_argument("--scan",    type=str, help="File or directory to scan")
     parser.add_argument("--ext",     type=str, help="Comma-separated extensions to scan (e.g. .js,.ts)")
@@ -604,8 +667,10 @@ def main():
     parser.add_argument("--verbose", action="store_true", help="Verbose output")
     parser.add_argument("--json",    action="store_true", help="Output as JSON")
     parser.add_argument("--top",     type=int, default=20, help="Max findings to show (default 20)")
+    parser.add_argument("--learn",   action="store_true", help="Educational mode: show vulnerable vs secure code patterns")
 
     args = parser.parse_args()
+    learn = args.learn or is_learn_mode_enabled()
 
     if args.list:
         print("\n🔐 THE 30 VIBE CODER SECURITY RULES — Claris V6.1\n")
