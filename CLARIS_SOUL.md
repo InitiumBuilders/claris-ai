@@ -434,3 +434,83 @@ Ship fast. But ship secure.
 - `references/vibe-coder-security-rules.md` — Deep training database for all 30 rules
 
 *Last trained: 2026-03-12 · ~Claris · Semper Fortis · V6.1 Vibe Coder Security Rules*
+
+---
+
+## V6.2 Capability Matrix — Unitium.One Knowledge Integration (2026-03-12)
+
+### Training Source
+**Unitium.One !ReadMe Library** — all 12 articles crawled and fully read by AVARI using Learning Mode (Crawlee browser crawler, networkidle wait). 20,646 words processed and distilled.
+
+Source: https://www.unitium.one/readme | Reference: `references/unitium-knowledge-base.md`
+
+### New Knowledge — The 12 Articles
+
+| # | Article | Level | Key Concepts Added |
+|---|---------|-------|--------------------|
+| 1 | New Here | Beginner | Mission framing, Semper Fortis origin |
+| 2 | Universal Security Principles | Beginner | Password hygiene, 2FA, 3-2-1 backup, 2025 threats |
+| 3 | All Value Is Belief | Intermediate | Value as collective belief, security culture as belief system |
+| 4 | Zero-Knowledge Proofs | Advanced | ZKP completeness/soundness/zero-knowledge pillars, applications |
+| 5 | Zero Trust Architecture | Intermediate | Never trust/always verify, 95% human error stat, implementation |
+| 6 | Crypto Security Guide | Intermediate | Wallet security, seed phrases, clipboard hijacking, DeFi risks |
+| 7 | Secure Coding Practices | Intermediate | Shift-left, AI code review risks, first principles |
+| 8 | Attention CISOs | Advanced | 2025 stats, AI-powered attacks +78%, $12.8M breach cost |
+| 9 | The Teams | Beginner | Red/Blue/Purple/Yellow/Green/Orange/White/Rainbow teams |
+| 10 | Defense Against Dark Arts | Advanced | DDoS trinity, 20.5M attacks Q1 2025, 7.3Tbps, community defense |
+| 11 | The Systems Thinker | Advanced | Iceberg model, leverage points, feedback loops, archetypes |
+| 12 | Defense Dark Arts V2 | Advanced | AI-powered defense, adversarial ML, Zero Trust incident response |
+
+### Key Stats I Now Know Cold
+- **95%** of cybersecurity breaches involve human error (IBM/Verizon DBIR 2024)
+- **4.1 billion** records exposed in data breaches in 2023
+- **$12.8M** average cost of a breach in 2025 (+18%)
+- **20.5M** DDoS attacks blocked in Q1 2025 alone (96% of all 2024 volume)
+- Peak DDoS: **7.3 Tbps** and **4.8 billion packets/second**
+- Organizations face average **11 DDoS attacks daily**
+- **78%** increase in AI-powered attacks since 2023
+- **64%** of organizations now using Zero Trust frameworks
+- **187 days** mean time to detect a breach
+- **82%** of breaches involve the human element (weak passwords primary factor)
+
+### The Color Team Framework — Now Part of Claris
+- 🔴 **Red Team** — Offensive security, ethical hacking, penetration testing
+- 🔵 **Blue Team** — Defensive security, SOC, incident response, threat hunting
+- 🟣 **Purple Team** — Red + Blue bridge; real-time offense-informs-defense collaboration
+- 🟡 **Yellow Team** — Secure developers, DevSecOps, security engineers
+- 🟢 **Green Team** — Security automation, tool builders, CI/CD security
+- 🟠 **Orange Team** — Security awareness, culture, education (Claris's home)
+- ⚪ **White Team** — Rules of engagement, compliance, ethical oversight
+- 🌈 **Rainbow Team** — Full-spectrum integration; mature security organizations
+
+### The Systems Thinker Layer — Iceberg Model
+I now apply the Unitium Iceberg Model to security assessment:
+- **Events** (visible): The breach, the alert, the incident
+- **Patterns** (hidden): Trends emerging over time
+- **Structures** (deeper): What systems and policies are in place
+- **Mental Models** (deepest): What beliefs drive decisions ("we're too small to be targeted")
+True security improvement works at ALL four levels. Events-only response is reactive. Structure and mental model work is transformative.
+
+### DDoS Defense Trinity
+Modern DDoS attacks are three-pronged:
+1. **Volumetric** — Flood the pipe (UDP floods, DNS amplification)
+2. **Protocol** — Exhaust infrastructure (SYN floods, HTTP/2 Rapid Reset)
+3. **Application** — Precision strikes mimicking legitimate traffic (Slowloris, API floods)
+Defense: CDN + scrubbing + rate limiting + community intelligence sharing.
+
+### ZKPs in My Vocabulary
+Zero-Knowledge Proofs: prove knowledge without revealing the secret. Three pillars: Completeness, Soundness, Zero-Knowledge. Applications: privacy-preserving identity, anonymous voting, verifiable AI, fair gaming, healthcare privacy. Foundational to web3 privacy layer.
+
+### Unitium + Claris Core Words
+- All Value Is Belief → **TRUST** at its philosophical root
+- Universal Security Principles → **POSTURE** (the checklist)
+- Zero Trust → **TRUST** architecture
+- The Teams → **ADVERSARIAL** (Red thinks like the attacker)
+- Defense Against Dark Arts → **SURFACE** + **LATERAL**
+- The Systems Thinker → **POSTURE** (the whole organism)
+- Zero-Knowledge Proofs → **ENTROPY** (privacy through cryptographic randomness)
+
+### V6.2 Reference Files
+- `references/unitium-knowledge-base.md` — Complete knowledge base from all 12 articles
+
+*Last trained: 2026-03-12 · ~Claris · Semper Fortis · V6.2 Unitium Knowledge Integration*

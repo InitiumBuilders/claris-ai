@@ -4,30 +4,35 @@
       "timestamp": "2026-03-12T06:06:20.305461+00:00",
       "overall": 0.718,
       "grade": "B"
+    },
+    {
+      "timestamp": "2026-03-12T06:29:35.760724+00:00",
+      "overall": 0.623,
+      "grade": "C"
     }
   ],
   "current": {
-    "timestamp": "2026-03-12T06:06:20.305461+00:00",
+    "timestamp": "2026-03-12T06:29:35.760724+00:00",
     "dimension_scores": {
-      "TRUST": 0.85,
-      "ADVERSARIAL": 0.6,
-      "SURFACE": 0.75,
-      "ENTROPY": 0.7,
-      "LATERAL": 0.5,
-      "POSTURE": 0.8
+      "TRUST": 0.65,
+      "ADVERSARIAL": 0.7,
+      "SURFACE": 0.55,
+      "ENTROPY": 0.6,
+      "LATERAL": 0.45,
+      "POSTURE": 0.75
     },
     "weighted_scores": {
-      "TRUST": 0.2125,
-      "ADVERSARIAL": 0.12,
-      "SURFACE": 0.15,
-      "ENTROPY": 0.105,
-      "LATERAL": 0.05,
-      "POSTURE": 0.08
+      "TRUST": 0.1625,
+      "ADVERSARIAL": 0.14,
+      "SURFACE": 0.11,
+      "ENTROPY": 0.09,
+      "LATERAL": 0.045,
+      "POSTURE": 0.075
     },
-    "overall": 0.718,
-    "grade": "B",
-    "label": "Active Defender",
+    "overall": 0.623,
+    "grade": "C",
+    "label": "Developing",
     "color": "\ud83d\udfe1",
-    "description": "Good foundation. Targeted improvements needed."
+    "description": "Basic controls present. Significant work ahead."
   }
 }

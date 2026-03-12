@@ -240,6 +240,7 @@ Cyber Patriot   (expert)       → 100% disclosure     → Full threat landscape
 |------|-------------|
 | `references/cyber-educator-framework.md` | Marcus Webb Protocol — philosophy of cybersecurity education |
 | `references/vibe-coder-security-rules.md` | All 30 rules with deep explanations, code patterns, and fixes |
+| `references/unitium-knowledge-base.md` | Complete knowledge base from all 12 Unitium.One !ReadMe articles (20,646 words) |
 | `references/v10-architecture.md` | V10 architecture deep dive |
 | `references/cyber-curriculum.md` | 8-pillar curriculum structure |
 | `references/autonomous-response-playbooks.md` | 12 incident response playbooks |
@@ -259,6 +260,7 @@ Cyber Patriot   (expert)       → 100% disclosure     → Full threat landscape
 | V5.0 | Federated Cortex | Temporal analyzer, zero-day hunter, OWASP LLM Top 10 |
 | V6.0 | Cyber Patriot Protocol | 6 Core Words, Marcus Webb Framework, Posture Intelligence |
 | **V6.1** | **Vibe Coder Security** | **30 Security Rules, vibe_coder_guard.py, deep training database** |
+| **V6.2** | **Unitium Knowledge Integration** | **All 12 Unitium.One articles: color teams, DDoS defense, ZKPs, systems thinking, Zero Trust stats** |
 
 ---
 
